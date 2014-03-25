@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title></title>
+ </head>
+ <body>
+ 
+ <h1>Mad Libs</h1>
+ 
+ <ul>
+  <li>Noun: <input id="noun" type="text" />
+  </li><li>Adjective: <input id="adjective" type="text" />
+  </li><li>Someone's Name: <input id="name" type="text" />
+ </li></ul>
+ 
+ <button id="lib-button">Lib it!</button>
+  
+ <div id="story"></div>
+  
+  <script>
+
+
+var person = document.getElementById("name");
+var adjective = document.getElementById("adjective");
+var noun = document.getElementById("noun");
+var supportStorage = false;
+if(typeof(Storage) !== "undefined"){
+supportStorage = true;
+if(localStorage.phrases){
+	localStorage.phrases = "";
+}
+
+if(localStorage.adjective){
+		adjective.value = localStorage.adjective;
+	}
+if(localStorage.noun){
+		noun.value = localStorage.noun;
+	}
+
+if(localStorage.person){
+		person.value = localStorage.person;
+	}
+adjective.onkeyup = function(){
+	localStorage.adjective = adjective.value;
+}
+
+noun.onkeyup = function(){
+	localStorage.noun = noun.value;	
+}
+
+person.onkeyup = function(){
+	localStorage.person = person.value;
+}
+}
+
+function libIt() {
+  var storyDiv = document.getElementById("story");
+  var phrase = person.value + " married a " + adjective.value + " " + noun.value + "... So weird!\n";
+if(supportStorage){
+	if(localStorage.phrases.indexOf(phrase) == -1){
+	localStorage.phrases +=  phrase+"<br/>";
+}
+	phrase = localStorage.phrases;	
+}
+  storyDiv.innerHTML = phrase;
+}
+
+var libButton = document.getElementById('lib-button');
+libButton.addEventListener('click', libIt);
+	</script>
+
+ 
+</body></html>

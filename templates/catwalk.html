@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Cat Walk</title>
+ </head>
+ <body>
+<audio controls id="audio" style="display: none">
+    <source src="{{url_for('static', filename='meow.wav')}}" type="audio/wav">
+    Your browser does not support the audio element.
+</audio>  
+  <img id="cat" style="position: absolute; left: 990px;" src="{{url_for('static', filename='cat.gif')}}">
+  
+  <script>
+var img = document.getElementsByTagName('img')[0];
+var audio = document.getElementById("audio");
+img.style.left = '0px';
+var walkForwards = true;
+var supportStorage = false;
+if(typeof(Storage) !== "undefined"){
+supportStorage = true;
+if(localStorage.position != "undefined"){
+		img.style.left = localStorage.position+"px";
+	}
+}
+function catWalk() {
+   var currentLeft = parseInt(img.style.left);
+   if(supportStorage){
+	localStorage.position = currentLeft;
+}	
+  if (walkForwards && (currentLeft > (window.innerWidth-img.width))) {
+    walkForwards = false;
+  }
+  if (!walkForwards && (currentLeft <= 0)) {
+    walkForwards = true;
+  }
+  
+  if (walkForwards) {
+    img.style.left = (currentLeft + 10) + 'px';
+  } else {
+    img.style.left = (currentLeft - 10) + 'px';
+  }
+}
+
+img.onmouseover = function(){
+ audio.play();
+}
+
+window.setInterval(catWalk, 50);
+  </script>
+
+ 
+</body></html>
